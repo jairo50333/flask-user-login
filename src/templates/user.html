@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .info {
+        margin: 10px;
+    }
+
+    .addressInfo {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .template{
+            margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+<body>
+<button style="margin-left: 30px;" onclick="back()">back</button>
+<div class="user" style="
+    margin: 30px;border: solid;border-color: grey;padding: 20px;
+    border-radius: 20px;" id={{ user.id }}>
+    <div class="info">First name:</div>
+    <div class="info" id="user_first_name" contenteditable="true">{{ user.first_name }}</div>
+    <div class="info">Last name:</div>
+    <div class="info" id="user_last_name" contenteditable="true">{{ user.last_name }}</div>
+    <div class="info">Email:</div>
+    <div class="info" id="user_email" contenteditable="true">{{ user.email }}</div>
+    <div class="info">Date of birth:</div>
+    <div class="info" id="user_date_of_birth" contenteditable="true">{{ user.date_of_birth }}</div>
+    <div class="info">Address:</div>
+    {% for address in addresses %}
+        <div name="addresses" style="display:flex; border: solid; margin-left: 10px;
+    border-color: grey;   border-radius: 7px; margin-top: 10px;">
+            <div class="addressInfo">Zip number:</div>
+            <div class="addressInfo">{{ address.zip }}</div>
+            <div>Country:</div>
+            <div class="addressInfo">{{ address.country }}</div>
+            <div>City:</div>
+            <div class="addressInfo">{{ address.city }}</div>
+            <div>Address:</div>
+            <div class="addressInfo">{{ address.street }}</div>
+            <button onclick="deleteAddress({{ address.id }})" style="margin-left: 15px" )>Delete Address</button>
+        </div>
+    {% endfor %}
+    <div class="template" id="addressTemplate" style="display: none">
+        <label>zip:</label>
+        <input class="addressInfo" name="address" type="text" placeholder="zip" required id="zip-{{ user.id }}">
+        <label>Country:</label>
+        <input class="addressInfo" type="text" placeholder="Enter country" required id="country-{{ user.id }}">
+        <label>City:</label>
+        <input class="addressInfo" type="text" placeholder="Enter city" required id="city-{{ user.id }}">
+        <label>Street:</label>
+        <input class="addressInfo" type="text" placeholder="Enter street" required id="street-{{ user.id }}">
+        <button type="submit" onclick=addAddress({{ user.id }})>Add Address to user</button>
+        <button onclick="hideAddressTemplate()" )>close</button>
+    </div>
+    <button id="showAddressTemplate" onclick="showAddressTemplate()" style="margin-top: 10px;margin-left: 10px;" )>Add Address</button>
+    <div class="addressInfo" name="phone_numbers">
+        {% for phone in phones %}
+            <div style="display: flex;margin-top: 10px;">
+                <div>{{ phone.phone_number }}</div>
+                <button onclick="deletePhone({{ phone.id }})" style="margin-left: 15px" )>Delete Phone</button>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <div id="phoneTemplate" style="display: none;margin-left: 10px;">
+        <input type="text" placeholder="Enter phone" required id="phone-{{ user.id }}">
+        <button type="submit" id="phone-{{ user.id }}" onclick="addPhone({{ user.id }})">Add Phone</button>
+        <button onclick="hidePhoneTemplate()" )>close</button>
+    </div>
+    <button style="margin-left: 10px;    margin-top: 10px;" id="showPhoneTemplate" onclick="showPhoneTemplate()" )>Add phone</button>
+    <button onclick="saveChanges('{{ user.user_name }}')" style="display: block;
+    margin-left: 80%;" )>Save changes
+    </button>
+
+</div>
+</body>
+<script>
+    function back() {
+        location.href = "/users"
+    }
+
+    function showAddressTemplate() {
+        document.getElementById("addressTemplate").style.display = "table";
+        document.getElementById("showAddressTemplate").style.display = "none";
+    }
+
+    function hideAddressTemplate() {
+        document.getElementById("addressTemplate").style.display = "none";
+        document.getElementById("showAddressTemplate").style.display = "block";
+    }
+
+    function showPhoneTemplate() {
+        document.getElementById("phoneTemplate").style.display = "table";
+        document.getElementById("showPhoneTemplate").style.display = "none";
+    }
+
+    function hidePhoneTemplate() {
+        document.getElementById("phoneTemplate").style.display = "none";
+        document.getElementById("showPhoneTemplate").style.display = "block";
+    }
+
+    function addAddress(id) {
+        let address = {
+            user_id: id,
+            zip: document.getElementById("zip-" + id).value,
+            country: document.getElementById("country-" + id).value,
+            street: document.getElementById("street-" + id).value,
+            city: document.getElementById("city-" + id).value
+        }
+        fetch('/users/address', {
+            method: 'POST', body: JSON.stringify(address), headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                location.reload();
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+
+    function deleteAddress(id) {
+        let deletedAddress = {id: id}
+        fetch('/users/address', {
+            body: JSON.stringify(deletedAddress),
+            method: 'DELETE', headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                location.reload();
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+
+    function addPhone(id) {
+        let phone = {
+            user_id: id,
+            phone_number: document.getElementById("phone-" + id).value,
+        }
+        fetch('/users/phones', {
+            method: 'POST', body: JSON.stringify(phone), headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                location.reload();
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+
+    function deletePhone(id) {
+        let deletedPhone = {id: id}
+        fetch('/users/phones', {
+            body: JSON.stringify(deletedPhone),
+            method: 'DELETE', headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                location.reload();
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+
+    function saveChanges(username) {
+
+        user = {
+            first_name: document.getElementById("user_first_name").textContent,
+            last_name: document.getElementById("user_last_name").textContent,
+            email: document.getElementById("user_email").textContent,
+            date_of_birth: document.getElementById("user_date_of_birth").textContent
+        }
+
+        fetch('/users/' + username, {
+            body: JSON.stringify(user),
+            method: 'PUT', headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                location.reload();
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+</script>
+</html>

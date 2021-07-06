@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+<div>
+    <label>login</label>
+    <form method ="post">
+    <label>username</label>
+          <input type="text" placeholder="Enter email" name="email" required>
+    <label>password</label>
+          <input type="password" placeholder="Enter password" name="password" required>
+        <button name = "login" type="submit" onclick="login()">Login</button>
+    </form>
+    <form action="/register">
+        <button type="submit">Register</button>
+    </form>
+
+</div>
+</body>
+<script>
+    function login(){
+        let user = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+        }
+        user = JSON.stringify(user)
+        console.log(user)
+
+        fetch('authologin', {
+            method: 'POST', body: user, headers: {
+                'Content-Type': 'application/json'
+            }})
+            .then(function (response) {
+                console.log(response.json())
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+
+    }
+</script>
+</html>

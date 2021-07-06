@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .user {
+        margin: 30px;
+        border: solid grey;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+</style>
+<body>
+<div style="margin: 30px">
+    <button id="showUserTemplate" onclick="showUserTemplate()">Add user</button>
+    <div id="userTemplate" style="display: none">
+        <label>FirstName</label>
+        <input type="text" placeholder="Enter FirstName" id="first_name" required>
+        <label>LastName</label>
+        <input type="text" placeholder="Enter LastName" id="last_name" required>
+        <label>password</label>
+        <input type="password" placeholder="Enter password" id="password" required>
+        <label>Email</label>
+        <input type="text" placeholder="Enter email" id="email" required>
+        <label>Date of Birth</label>
+        <input type="date" placeholder="Enter Date" id="date_of_birth" required>
+        <button id="addUser" type="submit" onclick="addUser()">Add user</button>
+        <button onclick="hideUserTemplate()" )>close</button>
+    </div>
+</div>
+
+{% for user in users %}
+    <div class="user" id={{ user.id }}>
+        <div>{{ user.first_name }}</div>
+        <div>{{ user.last_name }}</div>
+        <div>{{ user.email }}</div>
+        <div>{{ user.date_of_birth }}</div>
+        {% if user.addresses %}
+            <div>{{ user.addresses }}</div>
+        {% endif %}
+        {% if user.phone_numbers %}
+            <div>{{ user.phone_numbers }}</div>
+        {% endif %}
+        <button onclick="editUser('{{ user.user_name }}')">edit</button>
+        <button onclick="deleteUser('{{ user.user_name }}')">delete</button>
+    </div>
+{% endfor %}
+</body>
+<script>
+
+    function showUserTemplate() {
+        document.getElementById("userTemplate").style.display = "table";
+        document.getElementById("showUserTemplate").style.display = "none";
+    }
+
+    function hideUserTemplate() {
+        document.getElementById("userTemplate").style.display = "none";
+        document.getElementById("showUserTemplate").style.display = "block";
+    }
+
+
+    function addUser() {
+        let user = {
+            first_name: document.getElementById("first_name").value,
+            last_name: document.getElementById("last_name").value,
+            password: document.getElementById("password").value,
+            email: document.getElementById("email").value,
+            date_of_birth: document.getElementById("date_of_birth").value
+        }
+        fetch('/users', {
+            method: 'POST', body: JSON.stringify(user), headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+
+    function editUser(username) {
+        location.href = "/users/" + username;
+    }
+
+    function deleteUser(username) {
+        fetch('/users/' + username, {
+            method: 'DELETE',
+        })
+            .then(function (response) {
+                location.reload();
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
+
+</script>
+</html>
