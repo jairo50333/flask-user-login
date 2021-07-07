@@ -40,6 +40,7 @@ class AuthLogin(Resource):
         user = UserService.fetch_user_by_email(db.session, login)
         if not user or not check_password_hash(user.password, password):
             return "user not found", 401, {"WWW-Authenticate": "basic_realm :'Authentication required'"}
+        '''
         token = jwt.encode(
             {
                 "user_id": user.user_name,
@@ -50,7 +51,7 @@ class AuthLogin(Resource):
             {
                 "token": token.decode('utf-8')
             }
-        )
+        )'''
         return redirect(url_for('userlistapi'))
 
 
