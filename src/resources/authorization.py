@@ -11,7 +11,6 @@ from werkzeug.security import check_password_hash
 from services.users_services import UserService
 from src import db, app
 from src.models import Users
-from src.query import users
 from src.schemas import UserSchema
 
 
