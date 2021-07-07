@@ -12,7 +12,6 @@ class UserListApi(Resource):
     user_schema = UserSchema()
     phone_schema = PhoneSchema()
 
-    @token_required
     def get(self, user_name=None):
         if not user_name:
             users = UserService.fetch_all_users(db.session).all()

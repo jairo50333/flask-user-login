@@ -12,7 +12,6 @@ class AddressListApi(Resource):
     address_schema = AddressSchema()
     user_schema = UserSchema()
 
-    @token_required
     def post(self):
         try:
             address = self.address_schema.load(request.json, session=db.session)

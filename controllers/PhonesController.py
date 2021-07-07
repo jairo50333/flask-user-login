@@ -12,7 +12,6 @@ class PhoneListApi(Resource):
     phone_schema = PhoneSchema()
     user_schema = UserSchema()
 
-    @token_required
     def post(self):
         try:
             phone = self.phone_schema.load(request.json, session=db.session)

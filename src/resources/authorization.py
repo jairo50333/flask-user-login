@@ -47,12 +47,12 @@ class AuthLogin(Resource):
                 "exp": datetime.datetime.now() + datetime.timedelta(hours=1)
             }, app.config['SECRET_KEY']
         )
-        return jsonify(
+        jsonify(
             {
                 "token": token.decode('utf-8')
             }
         )
-        '''redirect(url_for('userlistapi'))'''
+        return redirect(url_for('userlistapi'))
 
 
 def token_required(func):

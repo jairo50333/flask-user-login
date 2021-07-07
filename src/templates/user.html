@@ -14,8 +14,8 @@
         margin-right: 10px;
     }
 
-    .template{
-            margin-top: 15px;
+    .template {
+        margin-top: 15px;
         margin-bottom: 15px;
     }
 </style>
@@ -59,7 +59,9 @@
         <button type="submit" onclick=addAddress({{ user.id }})>Add Address to user</button>
         <button onclick="hideAddressTemplate()" )>close</button>
     </div>
-    <button id="showAddressTemplate" onclick="showAddressTemplate()" style="margin-top: 10px;margin-left: 10px;" )>Add Address</button>
+    <button id="showAddressTemplate" onclick="showAddressTemplate()" style="margin-top: 10px;margin-left: 10px;" )>Add
+        Address
+    </button>
     <div class="addressInfo" name="phone_numbers">
         {% for phone in phones %}
             <div style="display: flex;margin-top: 10px;">
@@ -75,7 +77,9 @@
         <button type="submit" id="phone-{{ user.id }}" onclick="addPhone({{ user.id }})">Add Phone</button>
         <button onclick="hidePhoneTemplate()" )>close</button>
     </div>
-    <button style="margin-left: 10px;    margin-top: 10px;" id="showPhoneTemplate" onclick="showPhoneTemplate()" )>Add phone</button>
+    <button style="margin-left: 10px;    margin-top: 10px;" id="showPhoneTemplate" onclick="showPhoneTemplate()" )>Add
+        phone
+    </button>
     <button onclick="saveChanges('{{ user.user_name }}')" style="display: block;
     margin-left: 80%;" )>Save changes
     </button>

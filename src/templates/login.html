@@ -29,10 +29,8 @@
         user = JSON.stringify(user)
         console.log(user)
 
-        fetch('authologin', {
-            method: 'POST', body: user, headers: {
-                'Content-Type': 'application/json'
-            }})
+        fetch('/users', {
+            method: 'GET'
             .then(function (response) {
                 console.log(response.json())
                 return response
@@ -40,7 +38,6 @@
             .catch(function (error) {
                 console.error(error)
             })
-
     }
 </script>
 </html>
