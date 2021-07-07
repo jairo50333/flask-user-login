@@ -50,7 +50,7 @@ class PhoneNumbers(db.Model):
         self.phone_number = phone_number
 
     def __repr__(self):
-        return f'Phones({self.phone_number})'
+        return f'Phone:({self.phone_number})'
 
 
 class Addresses(db.Model):
@@ -71,5 +71,4 @@ class Addresses(db.Model):
         self.country = country
 
     def __repr__(self):
-        return f'adress({self.zip, self.country, self.city, self.street})'
-
+        return f'address({self.zip, self.country, self.city, self.street})'

@@ -1,16 +1,12 @@
-from datetime import datetime
+from flask import render_template
 
-import jwt
-from flask import render_template, request, make_response, jsonify
+from flask import render_template
 
 from controllers.AddressController import AddressListApi
 from controllers.PhonesController import PhoneListApi
 from controllers.UserController import UserListApi
-from services.users_services import UserService
-
-from src import app, api, db
-from src.resources.authorization import AuthRegister, AuthLogin
-from src.schemas import UserSchema
+from src import app, api
+from src.resources.authorization import AuthLogin
 
 
 @app.route('/')
