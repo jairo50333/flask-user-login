@@ -13,6 +13,10 @@ class UserListApi(Resource):
     phone_schema = PhoneSchema()
 
     def get(self, user_name=None):
+        search = request.args.get('search', '')
+        if search:
+            users = UserService.fetch_users_by_name(db.session, search).all()
+            return make_response(render_template('users.html', users=users), 200)
         if not user_name:
             users = UserService.fetch_all_users(db.session).all()
             return make_response(render_template('users.html', users=users), 200)

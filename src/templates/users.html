@@ -14,6 +14,11 @@
 
 </style>
 <body>
+<div>
+    <input type="text" id="searchUserName" class="input_search">
+    <button onclick="searchUser()">search</button>
+</div>
+
 <div style="margin: 30px">
     <button id="showUserTemplate" onclick="showUserTemplate()">Add user</button>
     <div id="userTemplate" style="display: none">
@@ -31,7 +36,6 @@
         <button onclick="hideUserTemplate()" )>close</button>
     </div>
 </div>
-
 {% for user in users %}
     <div class="user" id={{ user.id }}>
         <div>{{ user.first_name }}</div>
@@ -76,11 +80,27 @@
             }
         })
             .then(function (response) {
+                location.reload()
                 return response
             })
             .catch(function (error) {
                 console.error(error)
             })
+    }
+
+    function searchUser() {
+        let search = document.querySelector('.input_search').value;
+
+        ///fetch('/users?search='+search, {method: 'GET'})
+        location.href =`/users?search=${search}`;
+        /*fetch(`/users?search=${search}`, {method: 'GET'})
+            .then(function (response) {
+                return response
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+*/
     }
 
     function editUser(username) {

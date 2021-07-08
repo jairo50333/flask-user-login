@@ -6,7 +6,7 @@ WORKDIR lesson2.1/
 RUN pip install -U pipenv
 RUN pip install -U  pyjwt
 RUN pip install -U psycopg2
-RUN pipenv install -U pyjwt
+RUN pipenv install pyjwt
 COPY Pipfile .
 COPY Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --system

@@ -7,12 +7,12 @@
 <body>
 <div>
     <label>login</label>
-    <form method ="post">
-    <label>username</label>
-          <input type="text" placeholder="Enter email" name="email" required>
-    <label>password</label>
-          <input type="password" placeholder="Enter password" name="password" required>
-        <button name = "login" type="submit" onclick="login()">Login</button>
+    <form method="post">
+        <label>username</label>
+        <input type="text" placeholder="Enter email" name="email" required>
+        <label>password</label>
+        <input type="password" placeholder="Enter password" name="password" required>
+        <button name="login" type="submit" onclick="login()">Login</button>
     </form>
     <form action="/register">
         <button type="submit">Register</button>
@@ -21,7 +21,7 @@
 </div>
 </body>
 <script>
-    function login(){
+    function login() {
         let user = {
             email: document.getElementById("email").value,
             password: document.getElementById("password").value,
@@ -31,6 +31,7 @@
 
         fetch('/users', {
             method: 'GET'
+        })
             .then(function (response) {
                 console.log(response.json())
                 return response
@@ -38,6 +39,7 @@
             .catch(function (error) {
                 console.error(error)
             })
+
     }
 </script>
 </html>

@@ -14,6 +14,10 @@ class UserService:
     def fetch_user_by_email(cls, session, email):
         return cls.fetch_all_users(session).filter_by(email=email).first()
 
+    @classmethod
+    def fetch_users_by_name(cls, session, name):
+        return cls.fetch_all_users(session).filter(Users.first_name.contains(name) | Users.last_name.contains(name))
+
 
 class PhoneService:
     @staticmethod
