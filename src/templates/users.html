@@ -11,47 +11,55 @@
         padding: 20px;
         border-radius: 20px;
     }
-
 </style>
 <body>
-<div>
+<div style="margin-left: 30px">
     <input type="text" id="searchUserName" class="input_search">
     <button onclick="searchUser()">search</button>
 </div>
 
-<div style="margin: 30px">
+<div style="margin: 15px; margin-left: 30px">
     <button id="showUserTemplate" onclick="showUserTemplate()">Add user</button>
-    <div id="userTemplate" style="display: none">
+    <div id="userTemplate" style="    display: table;
+    border: solid lightgrey;
+    padding: 15px;
+    border-radius: 20px; display: none">
         <label>FirstName</label>
         <input type="text" placeholder="Enter FirstName" id="first_name" required>
+
         <label>LastName</label>
         <input type="text" placeholder="Enter LastName" id="last_name" required>
+        <br>
         <label>password</label>
         <input type="password" placeholder="Enter password" id="password" required>
         <label>Email</label>
         <input type="text" placeholder="Enter email" id="email" required>
         <label>Date of Birth</label>
         <input type="date" placeholder="Enter Date" id="date_of_birth" required>
+        <br>
         <button id="addUser" type="submit" onclick="addUser()">Add user</button>
         <button onclick="hideUserTemplate()" )>close</button>
     </div>
 </div>
-{% for user in users %}
-    <div class="user" id={{ user.id }}>
-        <div>{{ user.first_name }}</div>
-        <div>{{ user.last_name }}</div>
-        <div>{{ user.email }}</div>
-        <div>{{ user.date_of_birth }}</div>
-        {% if user.addresses %}
-            <div>{{ user.addresses }}</div>
-        {% endif %}
-        {% if user.phone_numbers %}
-            <div>{{ user.phone_numbers }}</div>
-        {% endif %}
-        <button onclick="editUser('{{ user.user_name }}')">edit</button>
-        <button onclick="deleteUser('{{ user.user_name }}')">delete</button>
-    </div>
-{% endfor %}
+<div class="users" style="display: grid;
+    grid-template-columns: 1fr 1fr 1fr;">
+    {% for user in users %}
+        <div class="user" id={{ user.id }}>
+            <div>{{ user.first_name }}</div>
+            <div>{{ user.last_name }}</div>
+            <div>{{ user.email }}</div>
+            <div>{{ user.date_of_birth }}</div>
+            {% if user.addresses %}
+                <div>{{ user.addresses }}</div>
+            {% endif %}
+            {% if user.phone_numbers %}
+                <div>{{ user.phone_numbers }}</div>
+            {% endif %}
+            <button onclick="editUser('{{ user.user_name }}')">edit</button>
+            <button onclick="deleteUser('{{ user.user_name }}')">delete</button>
+        </div>
+    {% endfor %}
+</div>
 </body>
 <script>
 
@@ -92,7 +100,7 @@
         let search = document.querySelector('.input_search').value;
 
         ///fetch('/users?search='+search, {method: 'GET'})
-        location.href =`/users?search=${search}`;
+        location.href = `/users?search=${search}`;
         /*fetch(`/users?search=${search}`, {method: 'GET'})
             .then(function (response) {
                 return response

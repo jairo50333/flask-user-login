@@ -5,20 +5,28 @@
     <title>Title</title>
 </head>
 <body>
-<form class="form" id="register">
-    <label>FirstName</label>
-    <input type="text" placeholder="Enter FirstName" id="first_name" required>
-    <label>LastName</label>
-    <input type="text" placeholder="Enter LastName" id="last_name" required>
-    <label>password</label>
-    <input type="password" placeholder="Enter password" id="password" required>
-    <label>Email</label>
-    <input type="text" placeholder="Enter email" id="email" required>
-    <label>Date of Birth</label>
-    <input type="date" placeholder="Enter Date" id="date_of_birth" required>
-    <button name="register" type="submit">Register</button>
-</form>
-
+<div style=" border-radius: 20px;
+    height: 150px;
+    border: solid grey;
+    width: 310px;
+    padding-top: 15px;
+    margin: 20% 35%;
+    background-color: white;
+    padding-left: 20px;">
+    <form class="form" id="register">
+        <label>FirstName</label>
+        <input type="text" placeholder="Enter FirstName" id="first_name" required><br>
+        <label>LastName</label>
+        <input type="text" placeholder="Enter LastName" id="last_name" required><br>
+        <label>password</label>
+        <input type="password" placeholder="Enter password" id="password" required><br>
+        <label>Email</label>
+        <input type="text" placeholder="Enter email" id="email" required><br>
+        <label>Date of Birth</label>
+        <input type="date" placeholder="Enter Date" id="date_of_birth" required><br>
+        <button name="register" type="submit">Register</button>
+    </form>
+</div>
 <script>
     const myForm = document.getElementById('register');
     myForm.addEventListener('submit', function (e) {
@@ -32,7 +40,7 @@
             date_of_birth: document.getElementById("date_of_birth").value
         }
         fetch('/users', {
-            method: 'POST', body: JSON.stringify(user), headers: {
+            method: 'POST', body: JSON.stringify(us`er), headers: {
                 'Content-Type': 'application/json'
             }})
             .then(function (response) {
