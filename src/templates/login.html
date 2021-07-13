@@ -14,33 +14,27 @@
     margin: 20% 35%;
     background-color: white;
     padding-left: 20px;">
-    <form method="post">
-        <label>username</label>
-        <input type="text" placeholder="Enter email" name="email" required><br>
-        <label>password</label>
-        <input type="password" placeholder="Enter password" name="password" required>
-        <button name="login" type="submit" onclick="login()">Login</button>
-    </form>
-    <form action="/register">
-        <button type="submit">Register</button>
-    </form>
-
+    <label>username</label>
+    <input type="text" placeholder="Enter email" id="email" required><br>
+    <label>password</label>
+    <input type="password" placeholder="Enter password" id="password" required>
+    <button name="login" type="submit" onclick="login()">Login</button>
+    <button type="submit">Register</button>
 </div>
 </body>
 <script>
     function login() {
         let user = {
             email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
+            password: document.getElementById("password").value
         }
-        user = JSON.stringify(user)
-        console.log(user)
-
-        fetch('/users', {
-            method: 'GET'
+        fetch('/', {
+            method: 'POST', body: JSON.stringify(user), headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then(function (response) {
-                console.log(response.json())
+                location.href = "/backend/users"
                 return response
             })
             .catch(function (error) {

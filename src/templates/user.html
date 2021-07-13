@@ -88,7 +88,7 @@
 </body>
 <script>
     function back() {
-        location.href = "/users"
+        location.href = "/backend/users"
     }
 
     function showAddressTemplate() {
@@ -119,7 +119,7 @@
             street: document.getElementById("street-" + id).value,
             city: document.getElementById("city-" + id).value
         }
-        fetch('/users/address', {
+        fetch('/backend/users/address', {
             method: 'POST', body: JSON.stringify(address), headers: {
                 'Content-Type': 'application/json'
             }
@@ -135,7 +135,7 @@
 
     function deleteAddress(id) {
         let deletedAddress = {id: id}
-        fetch('/users/address', {
+        fetch('/backend/users/address', {
             body: JSON.stringify(deletedAddress),
             method: 'DELETE', headers: {
                 'Content-Type': 'application/json'
@@ -155,7 +155,7 @@
             user_id: id,
             phone_number: document.getElementById("phone-" + id).value,
         }
-        fetch('/users/phones', {
+        fetch('/backend/users/phones', {
             method: 'POST', body: JSON.stringify(phone), headers: {
                 'Content-Type': 'application/json'
             }
@@ -171,7 +171,7 @@
 
     function deletePhone(id) {
         let deletedPhone = {id: id}
-        fetch('/users/phones', {
+        fetch('/backend/users/phones', {
             body: JSON.stringify(deletedPhone),
             method: 'DELETE', headers: {
                 'Content-Type': 'application/json'
@@ -195,7 +195,7 @@
             date_of_birth: document.getElementById("user_date_of_birth").textContent
         }
 
-        fetch('/users/' + username, {
+        fetch('/backend/users/' + username, {
             body: JSON.stringify(user),
             method: 'PUT', headers: {
                 'Content-Type': 'application/json'

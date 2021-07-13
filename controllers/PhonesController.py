@@ -4,7 +4,6 @@ from marshmallow import ValidationError
 
 from services.users_services import PhoneService
 from src import db
-from src.resources.authorization import token_required
 from src.schemas import UserSchema, PhoneSchema
 
 

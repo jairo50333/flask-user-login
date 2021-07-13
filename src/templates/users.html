@@ -19,6 +19,7 @@
 </div>
 
 <div style="margin: 15px; margin-left: 30px">
+    <button onclick="logOut()">log Out</button>
     <button id="showUserTemplate" onclick="showUserTemplate()">Add user</button>
     <div id="userTemplate" style="    display: table;
     border: solid lightgrey;
@@ -63,6 +64,13 @@
 </body>
 <script>
 
+    function logOut() {
+        fetch("/", {method: 'delete'}).then(function (response) {
+            location.href = "/"
+            return response
+        })
+    }
+
     function showUserTemplate() {
         document.getElementById("userTemplate").style.display = "table";
         document.getElementById("showUserTemplate").style.display = "none";
@@ -82,7 +90,7 @@
             email: document.getElementById("email").value,
             date_of_birth: document.getElementById("date_of_birth").value
         }
-        fetch('/users', {
+        fetch('/backend/users', {
             method: 'POST', body: JSON.stringify(user), headers: {
                 'Content-Type': 'application/json'
             }
@@ -99,9 +107,9 @@
     function searchUser() {
         let search = document.querySelector('.input_search').value;
 
-        ///fetch('/users?search='+search, {method: 'GET'})
-        location.href = `/users?search=${search}`;
-        /*fetch(`/users?search=${search}`, {method: 'GET'})
+        ///fetch('/backend/users?search='+search, {method: 'GET'})
+        location.href = `/backend/users?search=${search}`;
+        /*fetch(`/backend/users?search=${search}`, {method: 'GET'})
             .then(function (response) {
                 return response
             })
@@ -112,11 +120,11 @@
     }
 
     function editUser(username) {
-        location.href = "/users/" + username;
+        location.href = "/backend/users/" + username;
     }
 
     function deleteUser(username) {
-        fetch('/users/' + username, {
+        fetch('/backend/users/' + username, {
             method: 'DELETE',
         })
             .then(function (response) {

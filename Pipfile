@@ -15,8 +15,9 @@ importlib = "*"
 gunicorn = "*"
 psycopg2 = "*"
 pyjwt = "*"
-jwt = "*"
 marshmallow = "*"
+flask-session = "*"
+flask-cors = "*"
 
 [dev-packages]
 pytest = "*"

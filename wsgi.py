@@ -1,5 +1,8 @@
 import os
 
+from flask import session
+from flask_session import Session
+
 from src import app
 
 if __name__ == '__main__':

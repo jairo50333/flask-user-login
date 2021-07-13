@@ -1,8 +1,7 @@
 import datetime
 from functools import wraps
-
 import jwt
-from flask import request, jsonify, render_template, make_response, redirect, url_for
+from flask import request, session, redirect, url_for
 from flask_restful import Resource
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
@@ -35,40 +34,24 @@ class AuthLogin(Resource):
     user_schema = UserSchema()
 
     def post(self):
-        login = request.form.get('email')
-        password = request.form.get('password')
-        user = UserService.fetch_user_by_email(db.session, login)
-        if not user or not check_password_hash(user.password, password):
-            return "user not found", 401, {"WWW-Authenticate": "basic_realm :'Authentication required'"}
-        '''
-        token = jwt.encode(
-            {
-                "user_id": user.user_name,
-                "exp": datetime.datetime.now() + datetime.timedelta(hours=1)
-            }, app.config['SECRET_KEY']
-        )
-        jsonify(
-            {
-                "token": token.decode('utf-8')
-            }
-        )'''
-        return redirect(url_for('userlistapi'))
+        addressRequest = request.json
+        user = UserService.fetch_user_by_email(db.session, addressRequest["email"])
+        if not user or not check_password_hash(user.password, addressRequest["password"]):
+            return "user not found", 401
+        session.permanent = True
+        session['users'] = addressRequest["email"]
+        """return redirect(url_for("userlistapi")), 200"""
+        return "ok"
+
+    def delete(self):
+        session.pop("users", None)
+        return "OK"
 
 
-def token_required(func):
+def getSession(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
-        token = request.headers.get('X-api-key', '')
-        if not token:
-            return "", 401, {"WWW-Authenticate": "basic_realm :'Authentication required'"}
-        try:
-            user_name = jwt.decode(token, app.config['SECRET_KEY'])['user_id']
-        except(KeyError, jwt.ExpiredSignatureError):
-            return "", 401, {"WWW-Authenticate": "basic_realm :'Authentication required'"}
-        user = db.session.query(Users).filter_by(user_name=user_name).first()
-        # user = Users.find_user_by_uuid(uuid)
-        if not user:
-            return "", 401, {"WWW-Authenticate": "basic_realm :'Authentication required'"}
+        if not "users" in session:
+            return "need authorization to enter in the current page", 401, {"WWW-Authenticate": "basic_realm :'Authentication required'"}
         return func(self, *args, **kwargs)
-
     return wrapper

@@ -1,10 +1,12 @@
-from flask import request, render_template, make_response
+import datetime
+
+from flask import request, render_template, make_response, session
 from flask_restful import Resource
 from marshmallow import ValidationError
 
 from services.users_services import UserService, PhoneService, AddressService
 from src import db
-from src.resources.authorization import token_required
+from src.resources.authorization import AuthLogin, getSession
 from src.schemas import UserSchema, PhoneSchema
 
 
@@ -12,6 +14,7 @@ class UserListApi(Resource):
     user_schema = UserSchema()
     phone_schema = PhoneSchema()
 
+    @getSession
     def get(self, user_name=None):
         search = request.args.get('search', '')
         if search:
@@ -32,7 +35,10 @@ class UserListApi(Resource):
             user = self.user_schema.load(request.json, session=db.session)
         except ValidationError as e:
             return {'message': str(e)}, 400
-
+        if UserService.fetch_user_by_email(user.email):
+            return {'message', 'email already exists'}, 400
+        if user.date_of_birth > datetime.datetime.now():
+            return {'message', 'date of birth SHOULD be less than today'}, 400
         db.session.add(user)
         db.session.commit()
         return make_response(render_template('login.html'), 200)

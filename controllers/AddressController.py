@@ -4,7 +4,6 @@ from marshmallow import ValidationError
 
 from services.users_services import AddressService
 from src import db
-from src.resources.authorization import token_required
 from src.schemas import UserSchema, AddressSchema
 
 
@@ -28,7 +27,7 @@ class AddressListApi(Resource):
             if not address:
                 return {'message', 'address not exists'}, 404
             address = self.address_schema.load(request.json, instance=address, session=db.session)
-        except  ValidationError as e:
+        except ValidationError as e:
             return {'message': str(e)}, 400
         db.session.add(address)
         db.session.commit()

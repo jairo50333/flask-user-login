@@ -19,7 +19,7 @@ def register():
     return render_template('register.html')
 
 
-api.add_resource(UserListApi, '/users', '/users/<user_name>')
-api.add_resource(PhoneListApi, '/users/phones', strict_slashes=False)
-api.add_resource(AddressListApi, '/users/address', strict_slashes=False)
+api.add_resource(UserListApi, '/backend/users', '/backend/users/<user_name>')
+api.add_resource(PhoneListApi, '/backend/users/phones', strict_slashes=False)
+api.add_resource(AddressListApi, '/backend/users/address', strict_slashes=False)
 api.add_resource(AuthLogin, '/', strict_slashes=False)

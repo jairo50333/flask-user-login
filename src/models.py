@@ -13,7 +13,7 @@ class Users(db.Model):
     last_name = db.Column(db.String(20), nullable=False)
     user_name = db.Column(db.String(8), unique=True)
     password = db.Column(db.String(254), nullable=False)
-    email = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(20), nullable=False, unique=True)
     date_of_birth = db.Column(db.Date, index=True, nullable=False)
     phone_numbers = db.relationship("PhoneNumbers")
     addresses = db.relationship("Addresses")
