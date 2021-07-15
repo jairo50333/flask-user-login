@@ -23,11 +23,26 @@
         <label>Email</label>
         <input type="text" placeholder="Enter email" id="email" required><br>
         <label>Date of Birth</label>
-        <input type="date" placeholder="Enter Date" id="date_of_birth" required><br>
+        <input type="date" placeholder="Enter Date" id="date_of_birth" required max='2000-01-01'><br>
         <button name="register" type="submit">Register</button>
     </form>
 </div>
 <script>
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("date_of_birth").setAttribute("max", today);
+
+
     const myForm = document.getElementById('register');
     myForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -42,7 +57,8 @@
         fetch('/backend/backend/users', {
             method: 'POST', body: JSON.stringify(user), headers: {
                 'Content-Type': 'application/json'
-            }})
+            }
+        })
             .then(function (response) {
                 return response
             })

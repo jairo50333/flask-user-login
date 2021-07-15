@@ -7,12 +7,13 @@ from marshmallow import ValidationError
 from services.users_services import UserService, PhoneService, AddressService
 from src import db
 from src.resources.authorization import AuthLogin, getSession
-from src.schemas import UserSchema, PhoneSchema
+from src.schemas import UserSchema, PhoneSchema, AddressSchema
 
 
 class UserListApi(Resource):
     user_schema = UserSchema()
     phone_schema = PhoneSchema()
+    address_schema = AddressSchema()
 
     @getSession
     def get(self, user_name=None):
@@ -56,7 +57,24 @@ class UserListApi(Resource):
         return self.user_schema.dump(user), 200
 
     def patch(self):
-        pass
+        values = request.json
+        if (values["type"] == 'address'):
+            try:
+                address = self.address_schema.load(values['object'], session=db.session)
+            except ValidationError as e:
+                return {'message': str(e)}, 400
+            db.session.add(address)
+            db.session.commit()
+            return self.address_schema.dump(address), 200
+        if (values["type"] == 'phone'):
+            try:
+                phone = self.phone_schema.load(values['object00'], session=db.session)
+            except ValidationError as e:
+                return {'message': str(e)}, 400
+            db.session.add(phone)
+            db.session.commit()
+            return self.phone_schema.dump(phone), 200
+        return {'message': "data cannot be proceded"}, 400
 
     def delete(self, user_name):
         user = UserService.fetch_user_by_username(db.session, user_name)

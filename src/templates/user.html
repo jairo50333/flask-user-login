@@ -34,7 +34,7 @@
     <div class="info" id="user_date_of_birth" contenteditable="true">{{ user.date_of_birth }}</div>
     <div class="info">Address:</div>
     {% for address in addresses %}
-        <div name="addresses" style="display:flex; border: solid; margin-left: 10px;
+        <div name="addresses" style="display: inherit; border: solid; margin-left: 10px;
     border-color: grey;   border-radius: 7px; margin-top: 10px;">
             <div class="addressInfo">Zip number:</div>
             <div class="addressInfo">{{ address.zip }}</div>
@@ -113,14 +113,17 @@
 
     function addAddress(id) {
         let address = {
-            user_id: id,
-            zip: document.getElementById("zip-" + id).value,
-            country: document.getElementById("country-" + id).value,
-            street: document.getElementById("street-" + id).value,
-            city: document.getElementById("city-" + id).value
+            type: 'address',
+            object: {
+                user_id: id,
+                zip: document.getElementById("zip-" + id).value,
+                country: document.getElementById("country-" + id).value,
+                street: document.getElementById("street-" + id).value,
+                city: document.getElementById("city-" + id).value
+            }
         }
-        fetch('/backend/users/address', {
-            method: 'POST', body: JSON.stringify(address), headers: {
+        fetch('/backend/users', {
+            method: 'PATCH', body: JSON.stringify(address), headers: {
                 'Content-Type': 'application/json'
             }
         })
@@ -150,13 +153,18 @@
             })
     }
 
+
     function addPhone(id) {
         let phone = {
-            user_id: id,
-            phone_number: document.getElementById("phone-" + id).value,
+            type: 'phone',
+            object: {
+                user_id: id,
+                phone_number: document.getElementById("phone-" + id).value,
+            }
         }
-        fetch('/backend/users/phones', {
-            method: 'POST', body: JSON.stringify(phone), headers: {
+
+        fetch('/backend/users', {
+            method: 'PATCH', body: JSON.stringify(phone), headers: {
                 'Content-Type': 'application/json'
             }
         })

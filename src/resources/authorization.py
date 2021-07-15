@@ -33,12 +33,12 @@ class AuthRegister(Resource):
 class AuthLogin(Resource):
     user_schema = UserSchema()
 
+
     def post(self):
         addressRequest = request.json
         user = UserService.fetch_user_by_email(db.session, addressRequest["email"])
         if not user or not check_password_hash(user.password, addressRequest["password"]):
             return "user not found", 401
-        session.permanent = True
         session['users'] = addressRequest["email"]
         """return redirect(url_for("userlistapi")), 200"""
         return "ok"
